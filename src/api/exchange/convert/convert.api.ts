@@ -1,11 +1,12 @@
-import {Currency, ExchangeScheme} from "../../model/currency.model";
-
-const baseUrl = 'https://api.exchangerate.host/';
+import {Currency, ExchangeScheme} from "../../../model/currency.model";
+import {baseExchangeUrl} from "../exchange.api";
 
 const mapCurrencyToRaw = (currency: Currency): string => {
     const mapper = {
         [Currency.EUR]: 'EUR',
         [Currency.USD]: 'USD',
+        [Currency.BTC]: 'BTC',
+        [Currency.JPY]: 'JPY',
         [Currency.Unknown]: 'unknown'
     }
 
@@ -18,6 +19,10 @@ const mapRawCurrency = (raw: string): Currency => {
             return Currency.EUR;
         case 'USD':
             return Currency.USD;
+        case 'BTC':
+            return Currency.BTC;
+        case 'JPY':
+            return Currency.JPY;
         default:
             return Currency.Unknown;
     }
@@ -43,7 +48,7 @@ const mapRawExchangeResult = (rawResult: RawExchangeResult): ExchangeScheme => {
 }
 
 export const getConvertCurrency = async (params: { fromCurrency: Currency, toCurrency: Currency }) => {
-    const response = await fetch(`${baseUrl}/convert?from=${mapCurrencyToRaw(params.fromCurrency)}&to=${mapCurrencyToRaw(params.toCurrency)}`)
+    const response = await fetch(`${baseExchangeUrl}/convert?from=${mapCurrencyToRaw(params.fromCurrency)}&to=${mapCurrencyToRaw(params.toCurrency)}`)
     const result = await response.json();
 
     return mapRawExchangeResult(result);

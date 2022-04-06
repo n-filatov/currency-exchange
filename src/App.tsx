@@ -1,54 +1,50 @@
 import React from 'react';
 import './App.css';
 import {CurrencyExchangeForm} from "./widgets/CurrencyTransferForm/CurrencyExchangeForm";
-import {Container, Grid, Typography} from "@mui/material";
-import {useTransferCurrency} from "./services/transferCurrency/transferCurrency";
+import {AppBar, Container, Divider, Grid, Tab, Tabs, Typography} from "@mui/material";
+import {CurrencyExchangeView} from "./widgets/CurrencyExchangeView/CurrencyExchangeView";
+import {CurrencyExchangeHistory} from "./widgets/CurrencyExchangeHistory/CurrencyExchangeHistory";
 
 
-const useViewModel = () => {
-  const service = useTransferCurrency();
 
-  const show = React.useMemo(() => {
-    return service.amount !== null && service.exchangeRate !== null && service.fromCurrency !== null && service.toCurrency !== null;
-  }, [service.amount, service.exchangeRate, service.fromCurrency, service.toCurrency])
-
-  const toAmount = React.useMemo(() => {
-    if(service.amount === null || service.exchangeRate === null) {
-      return 0
-    }
-
-    return service.amount * service.exchangeRate;
-  }, [service.amount, service.exchangeRate]);
-
-  return {
-    show,
-    fromAmount: service.amount,
-    toAmount,
-    fromCurrency: service.fromCurrency,
-    toCurrency: service.toCurrency
-  }
-}
 
 function App() {
-  const viewModel = useViewModel();
+
   return (
-      <Container>
+      <div style={{ marginBottom: '128px'}}>
+      <AppBar position={'static'}>
+        <Container maxWidth={"lg"}>
+          <Typography>
+            Logo
+          </Typography>
+          <Tabs value={0} onChange={() => {}} aria-label="basic tabs example">
+            <Tab label="Item One" value={0}  />
+            <Tab label="Item Two"  />
+            <Tab label="Item Three" />
+          </Tabs>
+        </Container>
+      </AppBar>
+      <Container maxWidth={"lg"}>
         <Grid container spacing={2}>
           <Grid xs={12} item>
-            <Typography variant={'h1'}>
+            <Typography variant={'h1'} marginTop={8}>
               I want to convert
             </Typography>
           </Grid>
-          <CurrencyExchangeForm />
-          <Grid item xs={12}>
-          {viewModel.show && (
-              <Typography variant={'h3'}>
-                {`${viewModel.fromAmount} ${viewModel.fromCurrency} = ${viewModel.toAmount} ${viewModel.toCurrency}`}
-              </Typography>
-          )}
+          <Grid container spacing={2} marginTop={8}>
+            <CurrencyExchangeForm />
           </Grid>
+          <Grid item xs={12}>
+            <CurrencyExchangeView />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <CurrencyExchangeHistory />
         </Grid>
       </Container>
+      </div>
+
   );
 }
 

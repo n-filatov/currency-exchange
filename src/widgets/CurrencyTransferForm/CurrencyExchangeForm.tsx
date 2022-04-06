@@ -5,36 +5,51 @@ import {Currency} from "../../model/currency.model";
 
 const currencies = [
     {
-        value: 'USD',
+        value: Currency.USD,
         label: 'USD',
     },
     {
-        value: 'EUR',
+        value: Currency.EUR,
         label: 'EUR',
     },
     {
-        value: 'BTC',
+        value: Currency.BTC,
         label: 'BTC',
     },
     {
-        value: 'JPY',
+        value: Currency.JPY,
         label: 'JPY',
     },
 ];
 
+const mapValue = (value: string) => {
+    switch (value) {
+        case 'USD':
+            return Currency.USD;
+        case 'EUR':
+            return Currency.EUR;
+        case 'JPY':
+            return Currency.JPY;
+        case 'BTC':
+            return Currency.BTC
+        default:
+            return Currency.Unknown;
+    }
+}
+
 export function CurrencyExchangeForm() {
     const transferCurrencyService = useTransferCurrency();
 
-    const [currencyFrom, setCurrencyFrom] = React.useState(currencies[0].value);
-    const [currencyTo, setCurrencyTo] = React.useState(currencies[1].value);
+    const [currencyFrom, setCurrencyFrom] = React.useState<Currency>(currencies[0].value);
+    const [currencyTo, setCurrencyTo] = React.useState<Currency>(currencies[1].value);
     const [amount, setAmount] = React.useState(1);
 
     const handleChangeFrom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrencyFrom(event.target.value);
+        setCurrencyFrom(mapValue(event.target.value));
     };
 
     const handleChangeTo = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrencyTo(event.target.value);
+        setCurrencyTo(mapValue(event.target.value));
     };
 
     const handleChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,15 +58,15 @@ export function CurrencyExchangeForm() {
 
     const handleSubmit = () => {
         transferCurrencyService.exchangeCurrency({
-            fromCurrency: Currency.EUR,
-            toCurrency: Currency.USD,
+            fromCurrency: currencyFrom,
+            toCurrency: currencyTo,
             amount: amount
         })
     }
 
 
     return (
-        <Grid container spacing={2}>
+        <>
             <Grid item xs={3}>
                 <TextField id="standard-basic" label="Amount" variant="standard" value={amount} onChange={handleChangeAmount} />
             </Grid>
@@ -94,6 +109,8 @@ export function CurrencyExchangeForm() {
                     Convert
                 </Button>
             </Grid>
-        </Grid>
+        </>
+
+
     )
 }

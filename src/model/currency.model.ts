@@ -16,3 +16,11 @@ export type ExchangeRateHistoryItem = {
     date: Date;
     rate: number;
 }
+
+export type ExchangeQuery = {
+    id: string
+    fromCurrency: Currency
+    toCurrency: Currency
+    amount: number
+    date: Date;
+}

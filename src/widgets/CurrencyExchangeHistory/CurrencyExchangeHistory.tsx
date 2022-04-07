@@ -88,19 +88,19 @@ export function CurrencyExchangeHistory() {
     const viewModel = useViewModel();
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} marginTop={4}>
                 <Typography variant={"h3"}>
                     Exchange History
                 </Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={2} marginTop={2}>
                 <TextField
                     id="standard-select-currency"
                     select
-                    label="Select"
+                    label="Duration"
                     value={viewModel.selectedFilterVariant}
                     onChange={(e) => viewModel.setSelectedFilterVariant(Number(e.target.value))}
-                    helperText="Please select your currency"
+                    helperText="Select Duration"
                     variant="standard"
                 >
                     {variants.map((option) => (
@@ -110,7 +110,7 @@ export function CurrencyExchangeHistory() {
                     ))}
                 </TextField>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={10} marginTop={2}>
                 <FormControl>
                     <RadioGroup
                         row

@@ -1,4 +1,4 @@
-import {Stack, Typography} from "@mui/material";
+import {Box, Container, Stack, Typography} from "@mui/material";
 import React from "react";
 import {useTransferCurrency} from "../../services/transferCurrency/transferCurrency";
 
@@ -44,17 +44,17 @@ export function CurrencyExchangeView() {
     }
 
     return (
-        <Stack>
-            <Typography variant={'h3'}>
-                {`${viewModel.fromAmount} ${viewModel.fromCurrency} = ${viewModel.toAmount} ${viewModel.toCurrency}`}
-            </Typography>
-            <Typography variant={'body1'}>
-                {`1 ${viewModel.fromCurrency} = ${viewModel.fromExchangeRate} ${viewModel.toCurrency}`}
-            </Typography>
-            <Typography variant={'body1'}>
-                {`1 ${viewModel.toCurrency} = ${viewModel.toExchangeRate} ${viewModel.fromCurrency}`}
-            </Typography>
-        </Stack>
+        <Box sx={{ flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Typography variant={'h3'}>
+                    {`${viewModel.fromAmount} ${viewModel.fromCurrency} = ${viewModel.toAmount} ${viewModel.toCurrency}`}
+                </Typography>
+                <Typography variant={'body1'} marginTop={4}>
+                    {`1 ${viewModel.fromCurrency} = ${viewModel.fromExchangeRate} ${viewModel.toCurrency}`}
+                </Typography>
+                <Typography variant={'body1'}>
+                    {`1 ${viewModel.toCurrency} = ${viewModel.toExchangeRate} ${viewModel.fromCurrency}`}
+                </Typography>
+        </Box>
 
     )
 }

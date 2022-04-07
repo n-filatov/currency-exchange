@@ -5,10 +5,9 @@ import {useStore} from "effector-react";
 import {getTimeSeriesData} from "../../api/exchange/timeseries/timeseries.api";
 import { nanoid } from "nanoid";
 import { persist } from 'effector-storage/local'
-import {useState} from "react";
 
 type TransferCurrencyService = {
-    exchangeCurrency(params: Omit<ExchangeQuery, 'date' | 'id'>): Promise<unknown>,
+    exchangeCurrency(params: Omit<ExchangeQuery, 'date' | 'id'> & { saveQuery?: boolean }): Promise<unknown>,
     fromCurrency: Currency | null,
     toCurrency: Currency | null,
     exchangeRate: number | null,
@@ -53,6 +52,10 @@ $queriesHistory.on(deleteHistoryQueryFx, (state, data) => {
 })
 
 $queriesHistory.on(exchangeCurrencyFx.done, (state, data) => {
+    const saveQuery = data.params.saveQuery === undefined ? true : data.params.saveQuery;
+    if(!saveQuery) {
+        return state
+    }
     return [
         ...state,
         {

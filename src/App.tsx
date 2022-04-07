@@ -5,6 +5,8 @@ import {AppBar, Container, Divider, Grid, Tab, Tabs, Typography} from "@mui/mate
 import {CurrencyExchangeView} from "./widgets/CurrencyExchangeView/CurrencyExchangeView";
 import {CurrencyExchangeHistory} from "./widgets/CurrencyExchangeHistory/CurrencyExchangeHistory";
 import {QueryHistoryTable} from "./widgets/QueryHistoryTable/QueryHistoryTable";
+import {createEffect, createEvent, createStore} from "effector";
+import {useStore} from "effector-react";
 
 
 function MainTab() {
@@ -43,10 +45,26 @@ function HistoryTab() {
   )
 }
 
+const $selectedTab = createStore<number>(0);
+
+const setSelectedTabFx = createEvent<number>();
+
+$selectedTab.on(setSelectedTabFx, (state, data) => {
+    return data;
+})
+
+export const useViewModel = () => {
+    const selectedTab = useStore($selectedTab)
+
+    return {
+        selectedTab,
+        setSelectedTab: setSelectedTabFx
+    }
+}
+
 
 function App() {
-
-  const [selectedTab, setSelectedTab] = useState(0)
+    const { setSelectedTab, selectedTab } = useViewModel();
 
   return (
       <div style={{ marginBottom: '128px'}}>
@@ -58,8 +76,8 @@ function App() {
           <Tabs value={selectedTab} onChange={(e, newValue) => {
             setSelectedTab(newValue)
           }} aria-label="basic tabs example">
-            <Tab label="Item One" value={0}  />
-            <Tab label="Item Two" value={1}  />
+            <Tab label="Currency Converter" value={0}  />
+            <Tab label="View Conversion History" value={1}  />
           </Tabs>
         </Container>
       </AppBar>

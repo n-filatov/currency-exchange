@@ -1,1 +1,1 @@
-export const baseExchangeUrl = 'https://api.exchangerate.host/';
+export const baseExchangeUrl = "https://api.exchangerate.host/";
